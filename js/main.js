@@ -126,6 +126,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     e.preventDefault()
                 }
                 break
+            case "p":
+                if (e.ctrlKey){
+                    send_data()
+                    e.preventDefault()
+                }
             case "m":
                 mergeBoxes()
                 break
@@ -420,7 +425,35 @@ function moveViewport(direction) {
     //And we re-render the canvas
     State.canvas.renderAll()
 }
+function generate_content(entities,currentImagePath){
+    let returnData
+    fetch('http://127.0.0.1:5000/predict', {
+        method: 'POST', // or 'PUT'
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({"entities":entities,"image_path":currentImagePath}),
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+            returnData = data;
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    return returnData
+}
+function send_data(){
+    let filePath = FileService.getImageFilePath()
+    let entities = FileService.generateJsonString()
+    entities = JSON.parse(entities)
+    for (let en of entities){
+        let returnData = generate_content(en,filePath)
+        console.log(returnData)
+    }
 
+}
 function exportResult() {
     const blob = new Blob([FileService.generateJsonString()], {type: "text/json;encoding=utf8"})
     let link = document.createElement('a');

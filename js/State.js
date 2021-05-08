@@ -33,5 +33,6 @@ export default class State {
         State.selectedBoxId = null
         State.saveAlert = false
     }
+    
 }
 

@@ -1,7 +1,6 @@
 import State from "./State.js"
 import BoxService from "./BoxService.js"
 import LinkingService from "./LinkingService.js"
-
 export default class FileService {
 
     static getImageFilePath() {
@@ -25,7 +24,7 @@ export default class FileService {
             let fromLinks = box.originLinks.map(link => [State.linkArray[link].from, State.linkArray[link].to]).filter(link => link !== null)
             let toLinks = box.destinationLinks.map(link => [State.linkArray[link].from, State.linkArray[link].to]).filter(link => link !== null)
             let boxObj = box.box
-            entities.push({
+            var obj = {
                 id: boxObj.id,
                 text: box.content,
                 label: box.label,
@@ -37,12 +36,12 @@ export default class FileService {
                     parseFloat(Number((((boxObj.aCoords.tl.y + boxObj.height) * 1000) / (State.image.scaleY * 1000))).toFixed(2))
                 ],
                 linking: [...fromLinks, ...toLinks]
-            })
+            }
+            entities.push(obj)
         }
 
         return JSON.stringify(entities)
     }
-
 
     static loadJson() {
         let req = new XMLHttpRequest()
