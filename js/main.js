@@ -425,9 +425,8 @@ function moveViewport(direction) {
     //And we re-render the canvas
     State.canvas.renderAll()
 }
-function generate_content(entities,currentImagePath){
-    let returnData
-    fetch('http://127.0.0.1:5000/predict', {
+async function generate_content(entities,currentImagePath){
+    let  content = await fetch('http://127.0.0.1:5000/predict', {
         method: 'POST', // or 'PUT'
         headers: {
             'Content-Type': 'application/json',
@@ -436,22 +435,33 @@ function generate_content(entities,currentImagePath){
     })
         .then(response => response.json())
         .then(data => {
-            console.log('Success:', data);
-            returnData = data;
+            //console.log('Success:', data);
+            return data
         })
         .catch((error) => {
             console.error('Error:', error);
         });
-    return returnData
+    return content
 }
-function send_data(){
+async function send_data(){
     let filePath = FileService.getImageFilePath()
+    console.log(filePath)
     let entities = FileService.generateJsonString()
     entities = JSON.parse(entities)
-    for (let en of entities){
-        let returnData = generate_content(en,filePath)
-        console.log(returnData)
+    //console.log(JSON.stringify({"entities":entities,"image_path":filePath}))
+    let contents = await generate_content(entities,filePath)
+    for (const key in contents.data){
+        State.boxArray[key].content = contents.data[key]
+        entities[key].text = contents.data[key]
     }
+    for (const box in State.boxArray){
+        console.log(box)
+    }
+    // contents.then(function (result){
+    //     console.log(result)
+    // }, function (err){
+    //     console.log(err)
+    // });
 
 }
 function exportResult() {
