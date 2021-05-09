@@ -434,6 +434,11 @@ export default class BoxService {
         State.canvas.historySaveAction()
     }
 
+    //hoang code
+    static updateInput(idBox, input){
+        document.getElementById("content-" + idBox).value = input;
+    }
+
     static selectBox(box) {
         let selected = box
         if (selected !== null) {

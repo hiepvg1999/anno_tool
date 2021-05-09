@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     //Shortcuts
-    document.body.addEventListener("keydown", e => {
+    document.body.addEventListener("keydown", async e => {
         if  (State.selectedBoxId !== null) {
             switch (e.code.toLowerCase()) {
                 case "delete":
@@ -127,8 +127,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
                 break
             case "p":
-                if (e.ctrlKey){
-                    send_data()
+                if (e.altKey){
+                    let inputData = await send_data()
+                    for(const prop in inputData.data){
+                        BoxService.updateInput(prop, inputData.data[prop])
+                    }
                     e.preventDefault()
                 }
             case "m":
@@ -319,13 +322,13 @@ function setImage(path) {
             if (window.localStorage.getItem(FileService.getImageName()) !== null) {
                 UIkit.modal.confirm("Data has been found in local storage. Do you want to import it ?")
                     .then(() => {
-                        //Getting the stored data in the localstorage
-                        let objects = JSON.parse(window.localStorage.getItem(FileService.getImageName()))
-                        //And creating the boxes and links
-                        BoxService.createBoxesFromArray(objects)
-                        LinkingService.createLinksFromArray(objects)
-                        resolve()
-                    },
+                            //Getting the stored data in the localstorage
+                            let objects = JSON.parse(window.localStorage.getItem(FileService.getImageName()))
+                            //And creating the boxes and links
+                            BoxService.createBoxesFromArray(objects)
+                            LinkingService.createLinksFromArray(objects)
+                            resolve()
+                        },
                         //Otherwise getting data from file
                         () => {
                             FileService.loadJson()
@@ -337,7 +340,7 @@ function setImage(path) {
             //Loading from json file otherwise
             FileService.loadJson()
             resolve()
-    })
+        })
     });
 }
 
@@ -450,6 +453,7 @@ async function send_data(){
     entities = JSON.parse(entities)
     //console.log(JSON.stringify({"entities":entities,"image_path":filePath}))
     let contents = await generate_content(entities,filePath)
+    console.log(contents)
     for (const key in contents.data){
         State.boxArray[key].content = contents.data[key]
         entities[key].text = contents.data[key]
@@ -462,7 +466,7 @@ async function send_data(){
     // }, function (err){
     //     console.log(err)
     // });
-
+    return contents;
 }
 function exportResult() {
     const blob = new Blob([FileService.generateJsonString()], {type: "text/json;encoding=utf8"})
@@ -500,7 +504,6 @@ function mergeBoxes() {
         }
     }
 }
-
 
 
 
