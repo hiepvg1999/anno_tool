@@ -13,7 +13,9 @@ Server Flask:
 
 * create environment: python3 -m venv /path/to/new/virtual/environment
 * source env/bin/activate
-* pip install -r requirements.txt 
+* pip install -r requirements.txt
+* download weight file (https://drive.google.com/uc?id=13327Y1tz1ohsm5YZMyXVMPIOjoOA0OaA)
+* create folder model and put weight file into this folder
 
 Server NodeJS:
 
