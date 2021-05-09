@@ -10,6 +10,7 @@ const boxColors = {
     quantity: "rgb(170,80,13)",
     price: "rgb(170,153,21)",
     total_price: "rgb(103,170,0)",
+    other:"rgb(49,0,170)",
 }
 
 fabric.Object.prototype.borderScaleFactor = 2
@@ -172,6 +173,7 @@ export default class BoxService {
                         <option value="quantity">Quantity</option>
                         <option value="price">Price</option>
                         <option value="total_price">Total price</option>
+                        <option value="other">Other</option>
                         </select>
                     </div>
                     <div>

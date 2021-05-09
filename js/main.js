@@ -100,6 +100,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 case "digit4":
                     BoxService.changeLabel(State.selectedBoxId, "total_price")
                     break
+                case "digit5":
+                    BoxService.changeLabel(State.selectedBoxId, "other")
+                    break
                 default:
                     break
             }
