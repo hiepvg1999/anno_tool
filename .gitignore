@@ -3,7 +3,7 @@
 # Edit at https://www.gitignore.io/?templates=node,phpstorm,phpstorm+all
 
 source/
-
+model/
 ### Node ###
 # Logs
 logs
