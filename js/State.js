@@ -1,3 +1,4 @@
+import files from './files.js'
 export default class State {
 
     static canvas = null
@@ -24,7 +25,7 @@ export default class State {
 
     static saveAlert = false
     static image = null
-
+    static files = files
     static resetState() {
         State.currentLinkId = 0
         State.currentBoxId = 0

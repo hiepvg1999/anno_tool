@@ -68,7 +68,7 @@ export default class BoxService {
                 }),
 
                 content: "",
-                label: "",
+                label: "other",
                 //OriginLinks are the IDs of the links that goes from this box
                 originLinks: [],
                 //And this is the IDs of the links that goes to this box

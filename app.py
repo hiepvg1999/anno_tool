@@ -17,13 +17,15 @@ config['cnn']['pretrained']=False
 config['predictor']['beamsearch']=False
 config['weights'] = './model/transformerocr.pth'
 detector = Predictor(config)
-
+@app.route("/")
+def main():
+    return "Flask server"
 @app.route('/predict', methods=['POST'])
 def predict():
     if request.method == 'POST':
         data = request.get_json()
         print(data)
-        img = Image.open('.'+data['image_path'])
+        img = Image.open(data['image_path'][1:])
         result_arr = {}
         for en in data['entities']:
             box = en['box']

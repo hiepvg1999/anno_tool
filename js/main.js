@@ -129,7 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     e.preventDefault()
                 }
                 break
-            case "p":
+            case "x":
                 if (e.altKey){
                     let inputData = await send_data()
                     for(const prop in inputData.data){
@@ -451,6 +451,7 @@ async function generate_content(entities,currentImagePath){
 }
 async function send_data(){
     let filePath = FileService.getImageFilePath()
+    FileService.getPathsInDir(State.path)
     console.log(filePath)
     let entities = FileService.generateJsonString()
     entities = JSON.parse(entities)
@@ -475,7 +476,7 @@ function exportResult() {
     const blob = new Blob([FileService.generateJsonString()], {type: "text/json;encoding=utf8"})
     let link = document.createElement('a');
     link.href = window.URL.createObjectURL(blob);
-    link.download = FileService.getImageName() + "_output.json";
+    link.download = FileService.getImageName() + ".json";
     link.click();
     State.saveAlert = true
 }

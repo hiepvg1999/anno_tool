@@ -1,17 +1,20 @@
 import State from "./State.js"
 import BoxService from "./BoxService.js"
 import LinkingService from "./LinkingService.js"
-export default class FileService {
 
+export default class FileService {
     static getImageFilePath() {
-        return "/source/" + FileService.getImageName() + ".jpg"
+        return "../source/" + FileService.getImageName() + ".jpg"
     }
+
     static getJsonFilePath() {
-        return "/source/" + FileService.getImageName() + ".json"
+        return "../source/" + FileService.getImageName() + ".json"
     }
 
     static getImageName() {
-        return "image_" + ('00' + State.currentFileNumber).slice(-3)
+        console.log(State.currentFileNumber)
+        // return "image_" + ('00' + State.currentFileNumber).slice(-3)
+        return State.files[State.currentFileNumber]
     }
 
     static generateJsonString() {
@@ -52,7 +55,8 @@ export default class FileService {
         }
 
         let objects = JSON.parse(req.responseText);
-        let boxObjects = FileService.parseVisionResponse(objects)
+        console.log(objects)
+        let boxObjects = FileService.parseVisionResponse2(objects)
 
         BoxService.createBoxesFromArray(boxObjects)
     }
@@ -63,7 +67,26 @@ export default class FileService {
         BoxService.createBoxesFromArray(objects)
         LinkingService.createLinksFromArray(objects)
     }
-
+    static parseVisionResponse2(obj_arr) {
+        let boxObjects = []
+        for (let i = 0; i< obj_arr.length; i++){
+            let leftX = obj_arr[i].box[0] > obj_arr[i].box[2] ? obj_arr[i].box[2]: obj_arr[i].box[0]
+            let rightX = obj_arr[i].box[0] > obj_arr[i].box[2] ? obj_arr[i].box[0]: obj_arr[i].box[2]
+            boxObjects.push({
+                id: i,
+                text: obj_arr[i].text,
+                box: [
+                    leftX,
+                    obj_arr[i].box[1],
+                    rightX,
+                    obj_arr[i].box[3],
+                ],
+                label: obj_arr[i].label,
+                linking: obj_arr[i].linking
+            })
+        }
+        return boxObjects
+    }
     static parseVisionResponse(obj) {
         let boxObjects = []
         //We start at 1 because the 1st object is a concatenation of all the strings

@@ -2,6 +2,8 @@
 # Created by https://www.gitignore.io/api/node,phpstorm,phpstorm+all
 # Edit at https://www.gitignore.io/?templates=node,phpstorm,phpstorm+all
 
+source/
+
 ### Node ###
 # Logs
 logs
