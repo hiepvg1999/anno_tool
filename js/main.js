@@ -322,21 +322,22 @@ function setImage(path) {
             State.image.sendToBack();
 
             //Loading data in local storage if exists
+            // Hiep modify
             if (window.localStorage.getItem(FileService.getImageName()) !== null) {
-                UIkit.modal.confirm("Data has been found in local storage. Do you want to import it ?")
-                    .then(() => {
+                // UIkit.modal.confirm("Data has been found in local storage. Do you want to import it ?")
+                    // .then(() => {
                             //Getting the stored data in the localstorage
                             let objects = JSON.parse(window.localStorage.getItem(FileService.getImageName()))
                             //And creating the boxes and links
                             BoxService.createBoxesFromArray(objects)
                             LinkingService.createLinksFromArray(objects)
-                            resolve()
-                        },
+                            // resolve()
+                        // },
                         //Otherwise getting data from file
-                        () => {
-                            FileService.loadJson()
-                            resolve()
-                        })
+                        // () => {
+                        //     FileService.loadJson()
+                        //     //resolve()
+                        // })
 
                 return
             }
@@ -351,11 +352,12 @@ function changePage(direction) {
     //We first save the changes in the localstorage
     window.localStorage.setItem(FileService.getImageName(), FileService.generateJsonString())
     //We send a little alert if the user hasn't saved yet
-    if (!State.saveAlert) {
-        UIkit.notification("Don't forget to save. Click again to skip anyway", {status: 'warning', pos: "bottom-center"})
-        State.saveAlert = true
-        return
-    }
+    // Hiep modify
+    // if (!State.saveAlert) {
+    //     UIkit.notification("Don't forget to save. Click again to skip anyway", {status: 'warning', pos: "bottom-center"})
+    //     State.saveAlert = true
+    //     return
+    // }
     //Removing all the objects from the canvas
     State.canvas.remove(...State.canvas.getObjects())
     //Reseting all the state variables
